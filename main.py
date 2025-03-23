@@ -7,7 +7,7 @@ app = FastAPI()
 
 TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
-ALERTS = os.getenv("STOCK_ALERTS", "")  # Format: AAPL<160,TSLA>800,...
+ALERTS = os.getenv("STOCK_ALERTS", "")  # z. B. "AAPL<160,TSLA>800,NVDA<700"
 
 def send_telegram_message(message):
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
@@ -52,4 +52,5 @@ def check_prices():
 @app.get("/check")
 def run_check():
     results = check_prices()
-    return { "checked": len(results), "alerts": results }
+    print("Preisalarm ausgeführt:", results)
+    return { "checked": len(results), "status": "OK" }
